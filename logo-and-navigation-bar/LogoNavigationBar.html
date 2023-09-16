@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Component</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://kit.fontawesome.com/0f3793b933.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="../styles/output.css" />
+    <script type="text/javascript" src="../js/script.js" defer></script>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="gap-7 bg-sky-950 p-4 font-thin text-white">
+        <div class="container mx-auto flex items-center justify-between flex-col md:flex-row">
+            <!-- LOGO + BUTTON (Responsive)-->
+            <div class="flex justify-between w-full items-center sm:justify-center md:justify-start">
+                <!-- LOGO -->
+                <div class="hover:opacity-80 hover:text-orange-300">
+                    <a href="#" class="flex flex-col text-xl items-center font-libre-baskerville">
+                        <span>DETECTIVES</span>
+                        <span class="text-xs">Y</span>
+                        <span>TÚ</span>
+                    </a>
+                </div>
+
+                <!-- RESPONSIVE BUTTON -->
+                <button id="menu-button" type="button"
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 1h15M1 7h15M1 13h15" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- NAVIGATION -->
+            <div id="menu" class="justify-center items-center gap-7 hidden text-center sm:flex">
+                <div class="border-white bg-amber-300 text-black border-2 w-52 p-2 rounded-sm text-center">
+                    <a href="./contacto.html">
+                        <i class="fa-regular fa-envelope"></i>
+                        <span>Consulta privada</span>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="./index.html">Inicio</a>
+                </div>
+                <div>
+                    <a href="./servicios.html">Servicios</a>
+                </div>
+
+                <div>
+                    <a href="./preguntas-frecuentes.html">Preguntas frecuentes</a>
+                </div>
+                <div>
+                    <a href="./blog.html">Blog</a>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+
+</body>
+
+</html>

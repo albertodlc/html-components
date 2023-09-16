@@ -1,0 +1,16 @@
+{
+  "name": "detectives-y-tu-website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/albertodlc/detectives-y-tu-website.git",
+  "author": "adelacruz <albertodelacruz96@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "tailwindcss": "^3.3.3"
+  },
+  "scripts": {
+    "dev": "npx tailwindcss -i ./input.css -o ./styles/output.css --watch",
+    "build": "npx tailwindcss -i ./input.css -o ./styles/output.css"
+  }
+
+}
