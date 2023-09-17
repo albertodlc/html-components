@@ -9,14 +9,6 @@ const ENTERPRISE_CARD_CLASS = "enterprise";
 // SUBTITLE
 const SERVICES_SUBTITLE_ID = "services-subtitle-id";
 
-const button = document.querySelector('#menu-button');
-const menu = document.querySelector('#menu');
-
-
-button.addEventListener('click', () => {
-  menu.classList.toggle('hidden');
-});
-
 // Lista SERVICIOS
 const services = {
   // Acoso por terceros
