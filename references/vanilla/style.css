@@ -1,0 +1,20 @@
+.menu{
+    display: flex;
+    flex-flow: column;
+}
+
+.menu > .contenedor-h {
+    display: flex;
+    flex-flow: row;
+}
+
+.hello-world{
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+    max-width: 200px;
+}
+
+.hello-world span {
+    font-weight: bold;
+}
