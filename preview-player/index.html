@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>OpenHub Videos</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script defer type="module" src='./main.js'></script>
+</head>
+
+<body style="display: flex; flex-direction: column; padding: 17px; gap: 7px;">
+    <header>
+        <div style="display: flex; justify-content: center;">
+            <h3>OpenHub Videos</h3>
+        </div>
+    </header>
+    <main>
+        <div style="gap: 17px; display: flex; justify-content: center; flex-direction: row; flex-wrap: wrap; align-items: center;">
+            <video-player c-url="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" /></video-player>
+            <video-player 
+                c-url="https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+                c-poster="https://peach.blender.org/wp-content/uploads/title_anouncement.jpg"
+            ></video-player>
+            <video-player c-url="https://cdn.jwplayer.com/manifests/pZxWPRg4.m3u8" /></video-player>
+        </div>
+    </main>
+</body>
+
+</html>
