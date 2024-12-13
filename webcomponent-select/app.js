@@ -31,9 +31,9 @@ class FilterConectividad extends HTMLElement{
     render(){
         this.innerHTML = `
         <div style="display: flex; gap: 7px; width: 25%;">
-            <filter-select style="width: 100%;" id="region" name="region" title="Región"></filter-select>
-            <filter-select style="width: 100%;" id="zona" name="zona" title="Zona"></filter-select>
-            <filter-select style="width: 100%;" id="utd" name="utd" title="UTD"></filter-select>
+            <filter-select style="" id="region" name="region" title="Región"></filter-select>
+            <filter-select style="" id="zona" name="zona" title="Zona"></filter-select>
+            <filter-select style="" id="utd" name="utd" title="UTD"></filter-select>
         </div>`;
 
         this.querySelector("#region").loadList({url: getBaseUrl() + "/data/listOne.json"});

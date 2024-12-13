@@ -28,7 +28,7 @@ export class FilterSelect extends HTMLElement{
 
     render(){
         this.innerHTML = /* html */`
-            <div style="display:flex; flex-direction:column; width: 100%; text-align:center;">
+            <div style="display:flex; justify-content: center; flex-direction:column; width: 200px; text-align:center; gap: 7px;">
                 <label for="${this._id}">${this._title}</label>
                 <select id="${this._id}" name="${this._name}"></select>
             </div>
