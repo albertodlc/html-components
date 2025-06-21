@@ -1,5 +1,7 @@
 // ! /components/app-navbar.js
 export class AppNavbar extends HTMLElement {
+    #menusProps;
+
     constructor(){
         super();
 
@@ -7,7 +9,9 @@ export class AppNavbar extends HTMLElement {
     }
 
     set menus(data){
-        this.render(data);
+        this.#menusProps = data;
+
+        this.render();
     }
 
     #cleanLoading(){
@@ -15,27 +19,19 @@ export class AppNavbar extends HTMLElement {
     }
 
     #createMenuItems(props){
-        // "id": "dashboard",
-        // "label": "Dashboard",
-        // "icon": "home",
-        // "path": "/dashboard",
-        // "roles": [
-        //     "admin",
-        //     "user"
-        // ],
-        // "children": []
-
         const items = [];
 
         if( props ){
-            for(const prop of props){
+            for(const menu of props){
                 const item = document.createElement('li');
                 const anchor = document.createElement('a');
+                anchor.style.textDecoration = 'none';
 
-                anchor.href = prop.path;
-                anchor.innerText = prop.label;
 
-                item.id = prop.id;
+                anchor.href = menu.path;
+                anchor.innerText = menu.label;
+
+                item.id = menu.id;
 
                 item.appendChild(anchor);
 
@@ -51,7 +47,11 @@ export class AppNavbar extends HTMLElement {
         
         const navMenu = document.createElement('nav');
         const unList = document.createElement('ul');
-        const menuItems = this.#createMenuItems(props);
+        unList.style.display = 'flex';
+        unList.style.gap = '10px';
+        unList.style.listStyleType = 'none';
+
+        const menuItems = this.#createMenuItems(this.#menusProps);
 
         if( menuItems && menuItems.length > 0 ){
             menuItems.forEach( item => unList.appendChild(item) );

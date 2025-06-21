@@ -14,6 +14,28 @@ export async function fetchMenuMetadata(){
             ],
             "children": []
         },
+                {
+            "id": "data",
+            "label": "Data",
+            "icon": "home",
+            "path": "/data",
+            "roles": [
+                "admin",
+                "user"
+            ],
+            "children": []
+        },
+                {
+            "id": "about-us",
+            "label": "About us!",
+            "icon": "home",
+            "path": "/about-us",
+            "roles": [
+                "admin",
+                "user"
+            ],
+            "children": []
+        },
         {
             "id": "users",
             "label": "Users",
