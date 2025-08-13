@@ -1,0 +1,11 @@
+{
+  "javascript.validate.enable": true,
+  "javascript.suggestionActions.enabled": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "prettier.useTabs": false,
+  "prettier.tabWidth": 2,
+  "prettier.singleQuote": true
+}
