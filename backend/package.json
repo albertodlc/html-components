@@ -6,6 +6,7 @@
   "author": "Alberto de la Cruz <albertodelacruz96@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.6",
     "express": "^5.2.1"
   },
   "scripts": {

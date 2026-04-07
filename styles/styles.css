@@ -1,0 +1,106 @@
+:root {
+  --main-theme-color: #72a62a;
+  --light-semi-green: #d3fccf;
+  --light-green: #f0f7e8;
+  --accent-green: #40bd00;
+  --dark-green: #006f00;
+
+  --darker: #030303;
+  --dark: #333;
+  --dark-semi: #424242;
+
+  --gray: #cecece;
+  --gray-light: #bcbcbc;
+  --gray-lighten: #f8f8f8;
+  --gray-lightener: #e1e1e1;
+  --gray-dark: #ebebeb;
+
+  --gold: rgb(255, 191, 0);
+
+  --dark-blue: darkblue;
+  --light-blue: #def3fa;
+
+  --orange: #ff5000;
+  --orange-light: #ffbf00;
+
+  --red: red;
+  --dark-red: darkred;
+
+  --white: #ffffff;
+  --light-white: #f5f5f5;
+}
+
+/* SELECT */
+.app-select {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 200px;
+  text-align: center;
+  gap: 7px;
+}
+
+.app-select label {
+  font-weight: bold;
+}
+
+/* TABLE */
+.app-table {
+  flex: 1;
+  height: 100%;
+}
+
+.app-table__title {
+  padding: 7px;
+  background-color: var(--main-theme-color);
+  font-weight: bold;
+
+  color: #fff;
+}
+
+/* BUTTON */
+/* Default Btn */
+.app-btn {
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  align-items: center;
+
+  width: fit-content;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+.app-btn--default {
+  background-color: var(--gray-dark);
+  color: #54564c;
+  border: 1px solid var(--gray-light);
+}
+
+.app-btn--default:hover {
+  background-color: var(--gray-light) !important;
+  border: 1px solid var(--gray-dark) !important;
+}
+
+.app-btn--accept {
+  background-color: var(--main-theme-color) !important;
+  color: #fff !important;
+  border: 1px solid var(--dark-green) !important;
+}
+
+.app-btn--accept:hover {
+  background-color: var(--dark-green) !important;
+  border: 1px solid var(--main-theme-color) !important;
+}
+
+.app-btn--query {
+  background-color: var(--main-theme-color) !important;
+  border: 1px solid var(--dark-green) !important;
+}
+
+.app-btn--query:hover {
+  background-color: var(--dark-green) !important;
+  border: 1px solid var(--main-theme-color) !important;
+}

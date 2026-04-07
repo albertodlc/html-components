@@ -1,8 +1,8 @@
-import { IconConfig } from '../config/iconConfig.js';
-import { ContextUtil } from '../utils/contextUtil.js';
+import { IconConfig } from '../../config/iconConfig.js';
+import { ContextUtil } from '../../utils/contextUtil.js';
 
-import { TabulatorFull as Tabulator } from '../libs/tabulator_esm.min.mjs';
-import { AppBaseComponent } from './appBaseComponent.js';
+import { TabulatorFull as Tabulator } from '../../libs/tabulator_esm.mjs';
+import { AppBaseComponent } from '../appBaseComponent.js';
 
 /**
  * Componente de Tabla. Implementa 'Tabulator' como librería.
@@ -16,16 +16,28 @@ export class AppTable extends AppBaseComponent {
     this._props = AppTableHelper.props({});
   }
 
-  // * --- Renderiza el esqueleto del componente
+  // Render
   _render() {
+    const { tableProps, tableTitleProps, remoteDataProps } = this._props;
+
     // Limpiar en re-render
     this.innerHTML = '';
 
-    const { tableProps, tableTitleProps } = this._props;
+    // PROPs: Remotos
+    const remoteConfig = {
+      ajaxResponse: (url, params, response) => {
+        return this.AJAX_RESPONSE_TRIGGER({
+          url: remoteDataProps.url || null,
+          params,
+          response,
+          columnsFormatter: remoteDataProps.columnsFormatter || null,
+        });
+      },
+    };
 
     // MERGE: Todos los props para inicializar tabla
     const tableConfig = {
-      // ...remoteConfig,
+      ...remoteConfig,
       ...tableProps,
       data: [],
       columns: [],
@@ -34,9 +46,8 @@ export class AppTable extends AppBaseComponent {
     this.#renderTable({ tableConfig, tableTitleProps });
 
     // * COMPONENT CSS CLASS
-    this.classList.add('flex-container--available', 'full-height');
+    this.classList.add('app-table');
 
-    // TODO: Clases CSS?
     // ANCHURA tabla, controlado por el contenedor <div>
     if (tableProps) {
       this.style.width = tableProps.width;
@@ -60,7 +71,7 @@ export class AppTable extends AppBaseComponent {
     if (title) {
       const tableTitle = document.createElement('div');
       tableTitle.innerHTML = title;
-      tableTitle.classList.add('table__titlebar');
+      tableTitle.classList.add('app-table__title');
 
       this.appendChild(tableTitle);
     }
@@ -68,88 +79,15 @@ export class AppTable extends AppBaseComponent {
     // 2. Generar tabla
     const divWrap = document.createElement('div');
     this.appendChild(divWrap);
+
     this._refs.table = new Tabulator(divWrap, tableConfig);
   }
 
-  // * --- Event wiring
-
-  _bindEvents() {
-    // Internal component events
-    // this.addEventListener(
-    //   AppTableHelper.COMPONENT_EVENTS.DATA_LOADED.name,
-    //   this,
-    // );
-    // this.addEventListener(AppTableHelper.COMPONENT_EVENTS.ERROR.name, this);
-    // DOM events on internal elements (set up after _render populates _refs)
-    // this._refs.reloadBtn.addEventListener('click', this);
-  }
-
-  _unbindEvents() {
-    this.removeEventListener(
-      AppTableHelper.COMPONENT_EVENTS.DATA_LOADED.name,
-      this,
-    );
-    this.removeEventListener(AppTableHelper.COMPONENT_EVENTS.ERROR.name, this);
-
-    this._refs.reloadBtn.removeEventListener('click', this);
-  }
-
-  // * ── Single dispatch point
-
+  // Events
   handleEvent(event) {
-    switch (event.type) {
-      case AppTableHelper.COMPONENT_EVENTS.DATA_LOADED.name:
-        this.#onDataLoaded(event.detail);
-        break;
-
-      case AppTableHelper.COMPONENT_EVENTS.ERROR.name:
-        this.#onError(event.detail);
-        break;
-
-      case 'click':
-        if (event.currentTarget === this._refs.reloadBtn) {
-          this.#onReloadClick();
-        }
-        break;
-    }
+    const { type, detail } = event;
   }
 
-  // * ── Handlers
-
-  #onDataLoaded({ rowCount }) {}
-
-  #onError({ message }) {}
-
-  #onReloadClick() {}
-
-  // * ── Hydrate emits the events
-
-  async _hydrate() {
-    const { remoteDataProps } = this._props;
-    const { url, columnsFormatter } = remoteDataProps;
-
-    if (!url) return;
-
-    // ...populate table...
-    // this._emit(
-    //   AppTableHelper.COMPONENT_EVENTS.DATA_LOADED.name,
-    //   AppTableHelper.COMPONENT_EVENTS.DATA_LOADED.generatePayload({
-    //     rowCount: data.length,
-    //   }),
-    // );
-
-    // this._emit(
-    //   AppTableHelper.COMPONENT_EVENTS.ERROR.name,
-    //   AppTableHelper.COMPONENT_EVENTS.ERROR.generatePayload({
-    //     message: err.message,
-    //   }),
-    // );
-  }
-
-  /**
-   * Rellenar la tabla con datos
-   *
-   */
   async _hydrate() {
     const { localDataProps, remoteDataProps } = this._props;
 
@@ -177,29 +115,10 @@ export class AppTable extends AppBaseComponent {
     // REMOTE
     const { url, columnsFormatter } = remoteDataProps;
 
-    // Necesitamos tener 1 formatter => antes del fetch
-    if (columnsFormatter) {
-      /**
-       * TRIGGER PRE-RENDERIZAR TABLA (adaptar formato del REQUEST)
-       * - Recuperamos del RESPONSE 'data' => que son las FILAS de la tabla
-       * - Recuperamos del RESPONSE 'columns' => Inicializamos las COLUMNAS de la tabla
-       */
-      this._refs.table.options.ajaxResponse = (url, params, response) => {
-        return this.AJAX_RESPONSE_TRIGGER({
-          url,
-          params,
-          response,
-          columnsFormatter,
-        });
-      };
-    }
-
     // Cargamos la URL de datos remotos
     if (columnsFormatter && url) {
-      // * URL a la que llama para recuperar los datos
-      // this._refs.table.options.ajaxURL = url;
       this._refs.table.setData(url);
-      // ! La columna se inicializa en la respuesta al hacer el FETCH
+      // ! La columna se inicializan y formatean en la respuesta al hacer el FETCH
       // ...
     }
   }
@@ -218,20 +137,17 @@ export class AppTable extends AppBaseComponent {
   AJAX_RESPONSE_TRIGGER({ url, params, response, columnsFormatter }) {
     const { columns, data, pagination, tableOrder } = response;
 
-    // HACK: Esto se puede mejorar seguro => Estado interno del componente o algo
-    // INICIALIZAR COLUMNAS (Solo si no lo hemos hecho antes)
-    const hasColumns = this._refs.table.getColumnDefinitions().length > 0;
-    if (!hasColumns) {
-      const formattedColumns = columnsFormatter(columns);
-      this._refs.table.setColumns(formattedColumns);
-    }
+    // DEF. COLUMNAS: La recibimos del backend
+    // por lo tanto se tiene que formatear e inicializar aqui
+    const formattedColumns = columnsFormatter(columns);
+    this._refs.table.setColumns(formattedColumns);
 
-    // ORDEN TABLA
+    //ORDEN TABLA
     const tableOrderProps = {
       sorters: tableOrder?.sorters || [],
     };
 
-    // ACTUALIZAR PAGINACIÓN
+    //ACTUALIZAR PAGINACIÓN
     const paginationProps = {
       last_page:
         pagination?.totalPages || AppTableHelper.TABLE_PAGINATION.INITIAL.PAGE,
@@ -240,6 +156,8 @@ export class AppTable extends AppBaseComponent {
     };
 
     // ACTUALIZAR FILAS
+    // return data;
+
     return {
       data,
       ...paginationProps,
@@ -247,12 +165,11 @@ export class AppTable extends AppBaseComponent {
     };
   }
 
-  // * --- EXTERNAL API
+  // Public API
   /**
    * Recupera las filas seleccionadas por el usuario
    *
    * @returns [] array con los datos de las columnas
-   *
    */
   retrieveSelectedRowsData() {
     return this._refs.table.getSelectedData();
@@ -287,7 +204,6 @@ export class AppTable extends AppBaseComponent {
    *
    * @param url endpoint al que llamar
    * @param columnsFormatter en caso de tener diferentes columnas, se tienen que re-declarar
-   *
    */
   updateRemoteData({ url, columnsFormatter }) {
     if (columnsFormatter) {
@@ -298,37 +214,7 @@ export class AppTable extends AppBaseComponent {
       this._props.remoteDataProps.url = url;
     }
 
-    // this.#hydrate();
-  }
-
-  // GETTERs && SETTERs
-  get props() {
-    return this._props;
-  }
-
-  set props(values) {
-    // SOLO se reemplazan los nuevos que se pasen
-    this._props.tableProps = {
-      ...this._props.tableProps,
-      ...values.tableProps,
-    };
-
-    this._props.localDataProps = {
-      ...this._props.localDataProps,
-      ...values.localDataProps,
-    };
-
-    this._props.remoteDataProps = {
-      ...this._props.remoteDataProps,
-      ...values.remoteDataProps,
-    };
-
-    this._props.tableTitleProps = {
-      ...this._props.tableTitleProps,
-      ...values.tableTitleProps,
-    };
-
-    if (this._mounted) this._render();
+    this._hydrate();
   }
 }
 
@@ -433,6 +319,29 @@ export class AppTableHelper {
         cellClick: (e, cell) => {},
       };
     },
+  };
+
+  /**
+   * OVERRIDE
+   *
+   * Default column formatter
+   * @param {*} columns
+   * @returns
+   */
+  static DEFAULT_COLUM_FORMATTER = (columns) => {
+    const formattedColumns = [];
+
+    for (const column of columns) {
+      const { field } = column;
+
+      const parsedColumn = AppTableHelper.parseTabulatorColumn({
+        column: column,
+      });
+
+      formattedColumns.push(parsedColumn);
+    }
+
+    return formattedColumns;
   };
 
   // ! TABLE PROPS
@@ -609,7 +518,10 @@ export class AppTableHelper {
    * @returns objeto parseado con los datos de entrada
    *
    */
-  static remoteDataProps({ url = null, columnsFormatter = null }) {
+  static remoteDataProps({
+    url = null,
+    columnsFormatter = AppTableHelper.DEFAULT_COLUM_FORMATTER,
+  }) {
     return { url, columnsFormatter };
   }
 
